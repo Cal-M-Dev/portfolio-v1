@@ -17,13 +17,33 @@ html, body {
     background-color: #222;
 }
 
+html {
+    scroll-behavior: smooth;
+}
 
 
 /* =====================================
-Container
+Main Style
 =======================================*/
 
+main section {
+    min-height: 100vh;
+    padding: 4rem 2rem;
+    box-sizing: border-box;
+}
 
+#about {
+    background-color: #bd3a3a;
+  }
+  #timeline {
+    background-color: #0d7b43;
+  }
+  #projects {
+    background-color: #37206b;
+  }
+  #contact {
+    background-color: #929c27;
+}
 /* =====================================
 Nav Links Section
 =======================================*/
