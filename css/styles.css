@@ -1,25 +1,124 @@
-* {
+/* =====================================
+Whole Page Body Style
+=======================================*/
+
+html {
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+    line-height: 1.5;
+    font-size: 16px;
+}
+
+
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: sans-serif;
-  }
-  
-  .navbar {
+    background-color: #222;
+}
+
+/* =====================================
+Nav Links Section
+=======================================*/
+
+.nav-links {
+    list-style: none;
     display: flex;
     gap: 1rem;
-    background: #222;
-    padding: 1rem;
-  }
-  
-  .navbar a {
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    margin: 0;    
+}
+
+.nav-links a {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    transition: background 0.2s, color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links .active a {
+    color: #e63946;
+}
+
+/* =====================================
+Nav Bar Layout Section
+=======================================*/ 
+
+/* Nav Bar Fixed to top of Viewport */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* Nav Bar Style */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #202020;
+    padding: 1rem 2rem;
+}
+
+/* Fix Main Position Below Nav Bar */
+main {
+    padding-top: 4.5rem;
+}
+
+header {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* =====================================
+Hero Section 
+=======================================*/
+
+/* Hero Section Style */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #222;
+
+    text-align: center;
+    color: #fff;
+}
+
+/* Main Headline Style */
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+/* Tagline Style */
+.hero-content p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+/* CTA Button Style */
+.hero-content .cta {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #e63946;
     color: #fff;
     text-decoration: none;
-  }
-  
-  main {
-    padding: 2rem;
-  }
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+/* CTA hover effect */
+.hero-content .cta:hover {
+    background-color: #d62839;
+}
