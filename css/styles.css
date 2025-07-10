@@ -17,6 +17,13 @@ html, body {
     background-color: #222;
 }
 
+
+
+/* =====================================
+Container
+=======================================*/
+
+
 /* =====================================
 Nav Links Section
 =======================================*/
@@ -24,9 +31,9 @@ Nav Links Section
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 1rem;
-    margin: 0;
+    gap: 1.2rem;
     padding: 0;
+    margin: 0;
 }
 
 .nav-links li {
@@ -39,7 +46,7 @@ Nav Links Section
     font-weight: 600;
     text-decoration: none;
     border-radius: 0.25rem;
-    padding: 0.5rem 0.75rem;
+    padding: 0.25rem 0.75rem;
     transition: background 0.2s, color 0.2s;
 }
 
@@ -64,10 +71,10 @@ header {
 /* Nav Bar Style */
 .navbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content:right;
     background-color: #202020;
-    padding: 1rem 2rem;
+    padding: 1.2rem;
 }
 
 /* Fix Main Position Below Nav Bar */
