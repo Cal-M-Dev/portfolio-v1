@@ -10,19 +10,65 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
-const INTERACTIVE_COUNT = 500;
-const STATIC_COUNT = 50;
 const MAX_SPEED = 0.2;
 const VELOCITY_SCALE = 0.1;
 const morphInterval = 15;
-const CONNECT_DIST = 75;
-const VISIBILITY_RADIUS = 400;
-const MIN_VISIBILITY_OPACITY = 0.25;
-const FULL_OPACITY_RADIUS = 200;
 const BASE_PARTICLE_OPACITY = 1.0;
 const BASE_LINE_OPACITY = 1.0;
-const CONNECT_CURSOR_RADIUS = 300;
-const HALF_DISTANCE = 200;
+const MIN_VISIBILITY_OPACITY = 0.15;
+
+let INTERACTIVE_COUNT,
+    STATIC_COUNT,
+    CONNECT_DIST,
+    CONNECT_CURSOR_RADIUS,
+    VISIBILITY_RADIUS,
+    FULL_OPACITY_RADIUS,
+    HALF_DISTANCE;
+    
+
+function updateResponsiveParams(){
+    const w = window.innerWidth;
+
+    if (w < 600) {
+        // Small Screen
+        INTERACTIVE_COUNT = 200;
+        STATIC_COUNT = 50;
+        CONNECT_DIST = 80;
+        CONNECT_CURSOR_RADIUS = 200;
+        VISIBILITY_RADIUS = 400;
+        FULL_OPACITY_RADIUS = 100;
+        HALF_DISTANCE = 200;
+
+    } else if (w < 1200) {
+        // Medium Screen
+        INTERACTIVE_COUNT = 400;
+        STATIC_COUNT = 50;
+        CONNECT_DIST = 75;
+        CONNECT_CURSOR_RADIUS = 200;
+        VISIBILITY_RADIUS = 450;
+        FULL_OPACITY_RADIUS = 200;
+        HALF_DISTANCE = 150;
+
+    } else {
+        // Large Screen
+        INTERACTIVE_COUNT = 600;
+        STATIC_COUNT = 50;
+        CONNECT_DIST = 100;
+        CONNECT_CURSOR_RADIUS = 300;
+        VISIBILITY_RADIUS = 600;
+        FULL_OPACITY_RADIUS = 250;
+        HALF_DISTANCE = 200;
+    }
+}
+
+updateResponsiveParams();
+
+window.addEventListener('resize', () => {
+    resizeCanvas();
+    updateResponsiveParams();
+    initParticles();
+});
+
 
 let isHomeMode = true;
 let particles = [];
