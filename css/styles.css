@@ -18,7 +18,8 @@ html, body {
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 4.5rem;
+    scroll-padding-top: 2rem;
+    scroll-margin-top: 2rem;
 }
 
 #bg-canvas {
@@ -30,6 +31,12 @@ html {
     z-index: -1;
 
     background-color: #121212;
+}
+
+section {
+  position: relative;      
+  padding-top: 2rem;   
+  margin-top: -2rem;   
 }
 
 /* =====================================
@@ -97,7 +104,7 @@ header {
     left: 0;
     width: 100%;
     transform: translateY(-100%);
-    transition: transform 0.3s ease;
+    transition: transform 1s ease;
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
@@ -108,6 +115,7 @@ header.visible {
 
 /* Nav Bar Style */
 .navbar {
+    height: 2.7rem;
     display: flex;
     align-items: center;
     justify-content:right;
@@ -115,16 +123,10 @@ header.visible {
     padding: 1.2rem;
 }
 
-/* Fix Main Position Below Nav Bar */
-main {
-    padding-top: 4.5rem;
-}
-
 /* =====================================
 Hero Section 
 =======================================*/
 
-/* Hero Section Style */
 .hero {
     height: 100vh;
     display: flex;
@@ -152,24 +154,29 @@ Hero Section
     animation: fadeInUp 0.6s ease-out forwards;
 }
 
+.fade-in-2 {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out forwards;
+}
+
 .delay-1 { animation-delay: 0.4s; }
 .delay-2 { animation-delay: 1.2s; }
 .delay-3 { animation-delay: 4s; } 
 
-
-/* Main Headline Style */
 .hero-content h1 {
     font-size: 3rem;
     margin-bottom: 1rem;
 }
 
-/* Tagline Style */
 .hero-content p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
 }
+/* =====================================
+CTA Button
+=======================================*/
 
-/* CTA Button Style */
 .hero-content .cta {
     display: inline-block;
     padding: 0.75rem 1.5rem;
@@ -180,7 +187,6 @@ Hero Section
     transition: background-color 0.2s ease;
 }
 
-/* CTA hover effect */
 .hero-content .cta:hover {
     background-color: #d62839;
 }

@@ -37,5 +37,6 @@ function tick() {
     setTimeout(tick, delay);
 
 }
-
-document.addEventListener('DOMContentLoaded', tick);
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(tick, 1400);
+});
