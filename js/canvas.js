@@ -10,12 +10,19 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
-// PARTICLE_COUNTS
-const INTERACTIVE_COUNT = 150;
+const INTERACTIVE_COUNT = 500;
 const STATIC_COUNT = 50;
-const MAX_SPEED = 0.3;
-const VELOCITY_SCALE = 0.15;
+const MAX_SPEED = 0.2;
+const VELOCITY_SCALE = 0.1;
 const morphInterval = 15;
+const CONNECT_DIST = 75;
+const VISIBILITY_RADIUS = 400;
+const MIN_VISIBILITY_OPACITY = 0.25;
+const FULL_OPACITY_RADIUS = 200;
+const BASE_PARTICLE_OPACITY = 1.0;
+const BASE_LINE_OPACITY = 1.0;
+const CONNECT_CURSOR_RADIUS = 300;
+const HALF_DISTANCE = 200;
 
 let isHomeMode = true;
 let particles = [];
@@ -35,7 +42,7 @@ function Particle(index, interactive) {
     this.y = Math.random() * canvas.height;
     this.vx = (Math.random() - 0.5) * VELOCITY_SCALE;
     this.vy = (Math.random() - 0.5) * VELOCITY_SCALE;
-    this.size = Math.random() * 1.2 + 0.8;
+    this.size = Math.random() * 1 + 0.5;
 
     const count = interactive
         ? INTERACTIVE_COUNT
@@ -68,13 +75,6 @@ Particle.prototype.update = function() {
     }
 };
 
-Particle.prototype.draw = function() {
-    ctx.fillStyle = `rgba(${this.rgb}, ${this.alpha * 0.4})`;
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fill();
-}
-
 function initParticles() {
     particles = [];
     const count = isHomeMode ? INTERACTIVE_COUNT : STATIC_COUNT;
@@ -106,17 +106,59 @@ function animate() {
     }
 
     particles.forEach((p, i) => {
-        p.interactive = isHomeMode;
-        const half = Math.ceil(targetCount / 2);
-        p.color = i < half
-            ? 'rgba(175, 20, 61, 0.4)'
-            : 'rgba(19, 117, 182, 0.4)';
+       
+        p.rgb = i < Math.ceil(targetCount/2)
+            ? '175,20,61'
+            : '19,117,182';
+
+        const dx   = p.x - mouse.x;
+        const dy   = p.y - mouse.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist >= VISIBILITY_RADIUS) return;
+
+        let visFactor = dist <= FULL_OPACITY_RADIUS
+            ? 1
+            : Math.pow(2, -(dist - FULL_OPACITY_RADIUS) / HALF_DISTANCE);
+
+    p.update();
+
+        ctx.fillStyle = `rgba(${p.rgb}, ${p.alpha * BASE_PARTICLE_OPACITY * visFactor})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
     });
 
-    particles.forEach(p => {
-        p.update();
-        p.draw();
-    });
+  for (let i = 0; i < particles.length; i++) {
+    const p1   = particles[i];
+    for (let j = i + 1; j < particles.length; j++) {
+        const p2 = particles[j];
+    
+        const d1 = Math.hypot(p1.x - mouse.x, p1.y - mouse.y);
+        const d2 = Math.hypot(p2.x - mouse.x, p2.y - mouse.y);
+
+        if (d1 > CONNECT_CURSOR_RADIUS || d2 > CONNECT_CURSOR_RADIUS) continue;
+
+        const dx = p1.x - p2.x;
+        const dy = p1.y - p2.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist >= CONNECT_DIST) continue;
+
+        const v1 = Math.pow(2, -(Math.hypot(p1.x - mouse.x, p1.y - mouse.y)) / 150);
+        const v2 = Math.pow(2, -d2 / 150);
+
+        const visLine = Math.min(v1, v2);
+
+        const baseAlpha = 1 - dist / CONNECT_DIST;
+        const alpha     = baseAlpha * BASE_LINE_OPACITY * visLine;
+
+        ctx.strokeStyle = `rgba(19,117,182,${alpha})`;
+        ctx.lineWidth   = 1;
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+    }
+  }
 
     if (isHomeMode) {
         particles.forEach(p => {

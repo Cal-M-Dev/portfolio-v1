@@ -1,9 +1,10 @@
 // Active Navbar on page scroll
 document.addEventListener('DOMContentLoaded', () => {
   const header       = document.querySelector('header');
-  const headerHeight = header.getBoundingClientRect().height;
   const sections     = Array.from(document.querySelectorAll('section[id]'));
   const navLinks     = document.querySelectorAll('.nav-links a');
+  let   highlightTimer;
+  let   isAutoScroll = false;
 
   function doHighlight(id) {
     navLinks.forEach(l => l.parentElement.classList.remove('active'));
@@ -11,30 +12,35 @@ document.addEventListener('DOMContentLoaded', () => {
     if (link) link.parentElement.classList.add('active');
   }
 
-  let highlightTimer = null;
   function scheduleHighlight(id) {
-    if (highlightTimer) clearTimeout(highlightTimer);
-    highlightTimer = setTimeout(() => {
-      doHighlight(id);
-      highlightTimer = null;
-    }, 100);
+    if (isAutoScroll) return;
+    clearTimeout(highlightTimer);
+    highlightTimer = setTimeout(() => doHighlight(id), 250);
   }
 
-function onScroll() {
-  const headerHeight = header.getBoundingClientRect().height;
+  function onScroll() {
+    const headerHeight = header.getBoundingClientRect().height;
+    let current = sections[0].id;
+    sections.forEach(sec => {
+      if (sec.getBoundingClientRect().top <= headerHeight + 5) {
+        current = sec.id;
+      }
+    });
+    scheduleHighlight(current);
+  }
 
-  let current = sections[0].id;
-
-  sections.forEach(sec => {
-    const rect = sec.getBoundingClientRect();
-
-    if (rect.top <= headerHeight) {
-      current = sec.id;
-    }
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      isAutoScroll = true;
+      clearTimeout(highlightTimer);
+      const dest = link.getAttribute('href').slice(1);
+      setTimeout(() => {
+        doHighlight(dest);
+        isAutoScroll = false;
+      }, 500);
+    });
   });
 
-  scheduleHighlight(current);
-}
-  onScroll();
   window.addEventListener('scroll', onScroll);
+  onScroll();
 });
