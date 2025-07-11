@@ -1,28 +1,3 @@
-console.log("V1 script loaded!");
-
-// Active Navbar on page scroll
-document.addEventListener('DOMContentLoaded', () => {
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-links a');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            const id = entry.target.getAttribute('id');
-            const link = document.querySelector(`.nav-links a[href="#${id}"]`);
-
-            if (entry.isIntersecting) {
-                link.parentElement.classList.add('active');
-            } else {
-                link.parentElement.classList.remove('active');
-            }
-        });
-    },      {
-        rootMargin: '-50% 0px -50% 0px'
-    });
-
-    sections.forEach(section => observer.observe(section));
-});
-
-
 // Canvas
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
@@ -35,24 +10,33 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
+// PARTICLE_COUNTS
+const INTERACTIVE_COUNT = 150;
+const STATIC_COUNT = 40;
+
+let isHomeMode = true;
+let particles = [];
+const MAX_SPEED = 0.5;
+
 const mouse = { x: null, y: null };
 window.addEventListener('mousemove', e => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
 });
 
-const PARTICLE_COUNT = 150;
-const particles = [];
-const MAX_SPEED = 0.1;
-
-function Particle(index) {
+function Particle(index, interactive) {
+    this.interactive = interactive;
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
     this.vx = (Math.random() - 0.5) * 0.3;
     this.vy = (Math.random() - 0.5) * 0.3;
     this.size = Math.random() * 1.2 + 0.8;
 
-    if (index < PARTICLE_COUNT / 2) {
+    const count = interactive
+        ? INTERACTIVE_COUNT
+        : STATIC_COUNT;
+    
+    if (index < count / 2) {
         this.color = 'rgba(175, 20, 61, 0.4)';
     } else {
         this.color = 'rgba(19, 117, 182, 0.4)';
@@ -69,6 +53,12 @@ Particle.prototype.update = function() {
     if(this.y < 0 || this.y> canvas.height) {
         this.vy = -this.vy;
     }
+
+    const speed = Math.hypot(this.vx, this.vy)
+    if (speed > MAX_SPEED) {
+        this.vx = (this.vx / speed) * MAX_SPEED;
+        this.vy = (this.vy / speed) * MAX_SPEED;
+    }
 };
 
 Particle.prototype.draw = function() {
@@ -78,9 +68,23 @@ Particle.prototype.draw = function() {
     ctx.fill();
 }
 
-for (let i = 0; i < PARTICLE_COUNT; i++) {
-    particles.push(new Particle(i));
+function initParticles() {
+    particles = [];
+    const count = isHomeMode ? INTERACTIVE_COUNT : STATIC_COUNT;
+    for (let i = 0; i < count; i++) {
+        particles.push(new Particle(i, isHomeMode));
+    }
 }
+
+initParticles();
+
+window.addEventListener('scroll', () => {
+    const inHome = window.scrollY < canvas.height;
+    if (inHome !== isHomeMode) {
+        isHomeMode = inHome;
+        initParticles();
+    }
+});
 
 function animate() {
     ctx.clearRect (0,0, canvas.width, canvas.height);
@@ -90,7 +94,8 @@ function animate() {
         p.draw();
     });
 
-    particles.forEach(p => {
+    if (isHomeMode) {
+        particles.forEach(p => {
         const dx = p.x - mouse.x;
         const dy = p.y - mouse.y;
         const dist = Math.hypot(dx, dy);
@@ -99,14 +104,9 @@ function animate() {
             const force = (100 - dist) / 100 * 0.5;
             p.vx += (dx / dist) * force;
             p.vy += (dy / dist) * force;
-
-            const speed = Math.hypot (p.vx, p.vx)
-            if (speed > MAX_SPEED) {
-                p.vx = (p.vx / speed) * MAX_SPEED;
-                p.vy = (p.vy / speed) * MAX_SPEED;
             }
-        }
-    });
+        });
+    }
 
     requestAnimationFrame(animate);
 }
