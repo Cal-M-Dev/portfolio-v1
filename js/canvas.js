@@ -1,23 +1,19 @@
 // Canvas
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
+const header = document.querySelector('header');
+const hero = document.querySelector('.hero');
+const navHeight = header.offsetHeight;
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-const MAX_SPEED = 0.15;
+const MAX_SPEED = 0.1;
 const VELOCITY_SCALE = 0.1;
 const morphInterval = 15;
 const BASE_PARTICLE_OPACITY = 1.0;
 const BASE_LINE_OPACITY = 1.0;
 const MIN_VISIBILITY_OPACITY = 0.25;
-const RED_RGB = '255,80,120';
+const RED_RGB = '152, 18, 49';
 const BLUE_RGB = '120,200,255';
+const mouse = { x: null, y: null };
 
 let INTERACTIVE_COUNT,
     STATIC_COUNT,
@@ -26,7 +22,49 @@ let INTERACTIVE_COUNT,
     VISIBILITY_RADIUS,
     FULL_OPACITY_RADIUS,
     HALF_DISTANCE;
-    
+
+let isHomeMode = true;
+let particles = [];
+let targetCount = INTERACTIVE_COUNT;
+let frameCounter = 0;
+let staticPoint = { x: 0, y: 0 };
+
+updateResponsiveParams();
+updateStaticPoint();
+
+const observer = new IntersectionObserver(
+    ([entry]) => {
+        isHomeMode = entry.intersectionRatio > 0;
+        targetCount = isHomeMode ? INTERACTIVE_COUNT : STATIC_COUNT;
+        initParticles();
+    }, {
+        root: null,
+        rootMargin: `-${navHeight}px 0px 0px 0px`,
+        threshold: 0
+    }
+);
+
+observer.observe(hero);
+
+window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+window.addEventListener('resize', () => {
+    resizeCanvas();
+    updateStaticPoint();
+    updateResponsiveParams();
+    initParticles();
+});
+
+window.addEventListener('mousemove', e => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
 
 function updateResponsiveParams(){
     const w = window.innerWidth;
@@ -34,7 +72,7 @@ function updateResponsiveParams(){
     if (w < 600) {
         // Small Screen
         INTERACTIVE_COUNT = 200;
-        STATIC_COUNT = 50;
+        STATIC_COUNT = 100;
         CONNECT_DIST = 80;
         CONNECT_CURSOR_RADIUS = 200;
         VISIBILITY_RADIUS = 400;
@@ -44,7 +82,7 @@ function updateResponsiveParams(){
     } else if (w < 1200) {
         // Medium Screen
         INTERACTIVE_COUNT = 350;
-        STATIC_COUNT = 50;
+        STATIC_COUNT = 200;
         CONNECT_DIST = 85;
         CONNECT_CURSOR_RADIUS = 200;
         VISIBILITY_RADIUS = 450;
@@ -54,7 +92,7 @@ function updateResponsiveParams(){
     } else {
         // Large Screen
         INTERACTIVE_COUNT = 450;
-        STATIC_COUNT = 50;
+        STATIC_COUNT = 300;
         CONNECT_DIST = 100;
         CONNECT_CURSOR_RADIUS = 400;
         VISIBILITY_RADIUS = 700;
@@ -63,26 +101,10 @@ function updateResponsiveParams(){
     }
 }
 
-updateResponsiveParams();
-
-window.addEventListener('resize', () => {
-    resizeCanvas();
-    updateResponsiveParams();
-    initParticles();
-});
-
-
-let isHomeMode = true;
-let particles = [];
-let targetCount = INTERACTIVE_COUNT;
-let frameCounter = 0;
-
-
-const mouse = { x: null, y: null };
-window.addEventListener('mousemove', e => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-});
+function updateStaticPoint() {
+    staticPoint.x = canvas.width * 0.8;
+    staticPoint.y = canvas.height * 0.15;
+}
 
 function Particle(index, interactive) {
     this.interactive = interactive;
@@ -131,18 +153,15 @@ function initParticles() {
     }
 }
 
-window.addEventListener('scroll', () => {
-    const inHome = window.scrollY < canvas.height;
-    if (inHome !== isHomeMode) {
-        isHomeMode = inHome;
-        targetCount = isHomeMode ? INTERACTIVE_COUNT : STATIC_COUNT;
-    }
-});
-
 function animate() {
+
+    staticPoint.x = canvas.width * 0.8;
+    staticPoint.y = canvas.height * 0.15;
+    
     ctx.clearRect(0,0, canvas.width, canvas.height);
 
-    
+    const focus = isHomeMode ? mouse : staticPoint;
+
     if (++frameCounter >= morphInterval) {
       frameCounter = 0;
 
@@ -154,14 +173,17 @@ function animate() {
     }
 
     particles.forEach((p, i) => {
+
+        const count = isHomeMode ? INTERACTIVE_COUNT : STATIC_COUNT;
        
-        p.rgb = i < Math.ceil(targetCount/2)
+        p.rgb = i < Math.ceil(count/2)
             ? RED_RGB
             : BLUE_RGB;
-
-        const dx   = p.x - mouse.x;
-        const dy   = p.y - mouse.y;
+    
+        const dx = p.x - focus.x;
+        const dy = p.y - focus.y;
         const dist = Math.hypot(dx, dy);
+        
         if (dist >= VISIBILITY_RADIUS) return;
 
         let visFactor = dist <= FULL_OPACITY_RADIUS
@@ -181,18 +203,19 @@ function animate() {
     for (let j = i + 1; j < particles.length; j++) {
         const p2 = particles[j];
     
-        const d1 = Math.hypot(p1.x - mouse.x, p1.y - mouse.y);
-        const d2 = Math.hypot(p2.x - mouse.x, p2.y - mouse.y);
+        const d1 = Math.hypot(p1.x - focus.x, p1.y - focus.y);
+        const d2 = Math.hypot(p2.x - focus.x, p2.y - focus.y);
 
         if (d1 > CONNECT_CURSOR_RADIUS || d2 > CONNECT_CURSOR_RADIUS) continue;
 
         const dx = p1.x - p2.x;
         const dy = p1.y - p2.y;
         const dist = Math.hypot(dx, dy);
+        
         if (dist >= CONNECT_DIST) continue;
 
-        const v1 = Math.pow(2, -(Math.hypot(p1.x - mouse.x, p1.y - mouse.y)) / 150);
-        const v2 = Math.pow(2, -d2 / 150);
+        const v1 = Math.pow(2, -d1 / HALF_DISTANCE);
+        const v2 = Math.pow(2, -d2 / HALF_DISTANCE);
 
         const visLine = Math.min(v1, v2);
 
