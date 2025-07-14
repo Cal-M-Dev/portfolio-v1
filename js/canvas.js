@@ -15,7 +15,9 @@ const VELOCITY_SCALE = 0.1;
 const morphInterval = 15;
 const BASE_PARTICLE_OPACITY = 1.0;
 const BASE_LINE_OPACITY = 1.0;
-const MIN_VISIBILITY_OPACITY = 0.15;
+const MIN_VISIBILITY_OPACITY = 0.25;
+const RED_RGB = '255,80,120';
+const BLUE_RGB = '120,200,255';
 
 let INTERACTIVE_COUNT,
     STATIC_COUNT,
@@ -95,8 +97,8 @@ function Particle(index, interactive) {
         : STATIC_COUNT;
     
     this.rgb = index < count/2
-        ? '175,20,61'
-        : '19,117,182';
+        ? RED_RGB
+        : BLUE_RGB;
 
     this.alpha = 1;
     this.fading = false;
@@ -154,8 +156,8 @@ function animate() {
     particles.forEach((p, i) => {
        
         p.rgb = i < Math.ceil(targetCount/2)
-            ? '175,20,61'
-            : '19,117,182';
+            ? RED_RGB
+            : BLUE_RGB;
 
         const dx   = p.x - mouse.x;
         const dy   = p.y - mouse.y;
@@ -197,7 +199,7 @@ function animate() {
         const baseAlpha = 1 - dist / CONNECT_DIST;
         const alpha     = baseAlpha * BASE_LINE_OPACITY * visLine;
 
-        ctx.strokeStyle = `rgba(19,117,182,${alpha})`;
+        ctx.strokeStyle = `rgba(${BLUE_RGB}, ${alpha})`;
         ctx.lineWidth   = 1;
         ctx.beginPath();
         ctx.moveTo(p1.x, p1.y);
