@@ -10,7 +10,7 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
-const MAX_SPEED = 0.2;
+const MAX_SPEED = 0.15;
 const VELOCITY_SCALE = 0.1;
 const morphInterval = 15;
 const BASE_PARTICLE_OPACITY = 1.0;
@@ -41,9 +41,9 @@ function updateResponsiveParams(){
 
     } else if (w < 1200) {
         // Medium Screen
-        INTERACTIVE_COUNT = 400;
+        INTERACTIVE_COUNT = 350;
         STATIC_COUNT = 50;
-        CONNECT_DIST = 75;
+        CONNECT_DIST = 85;
         CONNECT_CURSOR_RADIUS = 200;
         VISIBILITY_RADIUS = 450;
         FULL_OPACITY_RADIUS = 200;
@@ -51,11 +51,11 @@ function updateResponsiveParams(){
 
     } else {
         // Large Screen
-        INTERACTIVE_COUNT = 600;
+        INTERACTIVE_COUNT = 450;
         STATIC_COUNT = 50;
         CONNECT_DIST = 100;
-        CONNECT_CURSOR_RADIUS = 300;
-        VISIBILITY_RADIUS = 600;
+        CONNECT_CURSOR_RADIUS = 400;
+        VISIBILITY_RADIUS = 700;
         FULL_OPACITY_RADIUS = 250;
         HALF_DISTANCE = 200;
     }
