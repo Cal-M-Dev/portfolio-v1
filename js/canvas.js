@@ -84,9 +84,9 @@ function updateResponsiveParams(){
 
     if (w < 600) {
         // Small Screen
-        INTERACTIVE_COUNT = 200;
+        INTERACTIVE_COUNT = 250;
         STATIC_COUNT = 100;
-        CONNECT_DIST = 80;
+        CONNECT_DIST = 90;
         CONNECT_CURSOR_RADIUS = 200;
         VISIBILITY_RADIUS = 400;
         FULL_OPACITY_RADIUS = 100;
@@ -104,11 +104,11 @@ function updateResponsiveParams(){
 
     } else {
         // Large Screen
-        INTERACTIVE_COUNT = 450;
-        STATIC_COUNT = 300;
-        CONNECT_DIST = 100;
-        CONNECT_CURSOR_RADIUS = 400;
-        VISIBILITY_RADIUS = 700;
+        INTERACTIVE_COUNT = 600;
+        STATIC_COUNT = 450;
+        CONNECT_DIST = 125;
+        CONNECT_CURSOR_RADIUS = 500;
+        VISIBILITY_RADIUS = 900;
         FULL_OPACITY_RADIUS = 250;
         HALF_DISTANCE = 200;
     }
@@ -177,8 +177,8 @@ function animate(now) {
     currentVelScale += (targetVelScale - currentVelScale) * t;
     currentMaxSpeed += (targetMaxSpeed - currentMaxSpeed) * t;
 
-    staticPoint.x = canvas.width * 0.8;
-    staticPoint.y = canvas.height * 0.15;
+    staticPoint.x = canvas.width * 0.75;
+    staticPoint.y = canvas.height * 0.25;
     ctx.clearRect(0,0, canvas.width, canvas.height);
 
     const target = isHomeMode ? mouse : staticPoint;
