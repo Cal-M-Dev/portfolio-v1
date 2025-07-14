@@ -14,6 +14,9 @@ const MIN_VISIBILITY_OPACITY = 0.25;
 const RED_RGB = '152, 18, 49';
 const BLUE_RGB = '120,200,255';
 const mouse = { x: null, y: null };
+const DURATION = 3000;
+const STATIC_VELOCITY_SCALE = 0.02;
+const STATIC_MAX_SPEED = 0.03;
 
 let INTERACTIVE_COUNT,
     STATIC_COUNT,
@@ -24,19 +27,29 @@ let INTERACTIVE_COUNT,
     HALF_DISTANCE;
 
 let isHomeMode = true;
+let wasHomeMode = true;
 let particles = [];
-let targetCount = INTERACTIVE_COUNT;
 let frameCounter = 0;
 let staticPoint = { x: 0, y: 0 };
 
 updateResponsiveParams();
 updateStaticPoint();
 
+let currentFocus = { x: canvas.width/2, y: canvas.height/2};
+let currentCount = INTERACTIVE_COUNT;
+let targetCount = INTERACTIVE_COUNT;
+let currentVelScale = VELOCITY_SCALE;
+let targetVelScale = VELOCITY_SCALE;
+let currentMaxSpeed = MAX_SPEED;
+let targetMaxSpeed = MAX_SPEED;
+let Time = performance.now();
+
 const observer = new IntersectionObserver(
     ([entry]) => {
         isHomeMode = entry.intersectionRatio > 0;
         targetCount = isHomeMode ? INTERACTIVE_COUNT : STATIC_COUNT;
-        initParticles();
+        targetVelScale = isHomeMode ? VELOCITY_SCALE : STATIC_VELOCITY_SCALE;
+        targetMaxSpeed = isHomeMode ? MAX_SPEED : STATIC_MAX_SPEED;
     }, {
         root: null,
         rootMargin: `-${navHeight}px 0px 0px 0px`,
@@ -110,8 +123,9 @@ function Particle(index, interactive) {
     this.interactive = interactive;
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
-    this.vx = (Math.random() - 0.5) * VELOCITY_SCALE;
-    this.vy = (Math.random() - 0.5) * VELOCITY_SCALE;
+    this.vx = (Math.random() - 0.5) * currentVelScale;
+    this.vy = (Math.random() - 0.5) * currentVelScale;
+    this.maxSpeed = currentMaxSpeed;
     this.size = Math.random() * 1 + 0.5;
 
     const count = interactive
@@ -139,9 +153,9 @@ Particle.prototype.update = function() {
     }
 
     const speed = Math.hypot(this.vx, this.vy);
-    if (speed > MAX_SPEED) {
-        this.vx = (this.vx / speed) * MAX_SPEED;
-        this.vy = (this.vy / speed) * MAX_SPEED;
+    if (speed > this.maxSpeed) {
+        this.vx = (this.vx / speed) * this.maxSpeed;
+        this.vy = (this.vy / speed) * this.maxSpeed;
     }
 };
 
@@ -153,30 +167,50 @@ function initParticles() {
     }
 }
 
-function animate() {
+function animate(now) {
+
+    const dt = now - Time;
+    Time = now;
+    const t = Math.min(dt / DURATION, 1);
+
+    currentCount += (targetCount - currentCount) * t;
+    currentVelScale += (targetVelScale - currentVelScale) * t;
+    currentMaxSpeed += (targetMaxSpeed - currentMaxSpeed) * t;
 
     staticPoint.x = canvas.width * 0.8;
     staticPoint.y = canvas.height * 0.15;
-    
     ctx.clearRect(0,0, canvas.width, canvas.height);
 
-    const focus = isHomeMode ? mouse : staticPoint;
+    const target = isHomeMode ? mouse : staticPoint;
+    if (!isHomeMode && wasHomeMode) {
+        currentFocus.x = mouse.x;
+        currentFocus.y = mouse.y;
+    }
+    if (!isHomeMode) {
+        currentFocus.x += (target.x - currentFocus.x) * t;
+        currentFocus.y += (target.y - currentFocus.y) * t;
+    } else {
+        currentFocus.x = mouse.x;
+        currentFocus.y = mouse.y;
+    }
+    wasHomeMode = isHomeMode;
+    const focus = currentFocus;
+
+    const visibleCount = Math.round(currentCount);
 
     if (++frameCounter >= morphInterval) {
       frameCounter = 0;
 
-      if (particles.length < targetCount) {
+      if (particles.length < visibleCount) {
         particles.push(new Particle(particles.length, isHomeMode));
-      } else if (particles.length > targetCount) {
+      } else if (particles.length > visibleCount) {
         particles[particles.length - 1].fading = true;
       }
     }
 
     particles.forEach((p, i) => {
 
-        const count = isHomeMode ? INTERACTIVE_COUNT : STATIC_COUNT;
-       
-        p.rgb = i < Math.ceil(count/2)
+        p.rgb = i < Math.ceil(visibleCount/2)
             ? RED_RGB
             : BLUE_RGB;
     
@@ -256,4 +290,4 @@ function animate() {
     requestAnimationFrame(animate);
 }
 initParticles();
-animate();
+requestAnimationFrame(animate);
