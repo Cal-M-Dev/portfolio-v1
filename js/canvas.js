@@ -104,13 +104,13 @@ function updateResponsiveParams(){
 
     } else {
         // Large Screen
-        INTERACTIVE_COUNT = 600;
+        INTERACTIVE_COUNT = 700;
         STATIC_COUNT = 450;
-        CONNECT_DIST = 125;
+        CONNECT_DIST = 120;
         CONNECT_CURSOR_RADIUS = 500;
-        VISIBILITY_RADIUS = 900;
-        FULL_OPACITY_RADIUS = 250;
-        HALF_DISTANCE = 200;
+        VISIBILITY_RADIUS = 1000;
+        FULL_OPACITY_RADIUS = 300;
+        HALF_DISTANCE = 350;
     }
 }
 
