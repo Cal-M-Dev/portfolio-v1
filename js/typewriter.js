@@ -3,8 +3,9 @@ function randInt(min, max) {
 }
 
 const sentences = [
-    "Aspiring full-stack developer.",
-    "Avid learner.",
+    "Aspiring Developer.",
+    "Avid learner & Problem Solver.",
+    "Remote Ready."
 ];
 
 const el = document.getElementById('typewriter');
