@@ -80,8 +80,8 @@ Nav Links Section
 
 .nav-links a {
     color: #fff;
-    font-size: 20px;
-    font-weight: 400;
+    font-size: 22px;
+    font-weight: 500;
     text-decoration: none;
     border-radius: 0.25rem;
     padding: 0.25rem 0.75rem;
@@ -228,13 +228,13 @@ About Section
 .about-section {
     position: relative;
     min-height: 100vh;
-    padding-top: 25rem;
+    padding-top: 20rem;
     box-sizing: border-box;
 }
 
 .section-title {
     position: absolute;
-    top: 15%;
+    top: 10%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 0.5rem 1rem;
@@ -268,6 +268,7 @@ About Section
     flex-direction: column;
     align-items: center;
     gap: 2rem;
+    margin-top: -5rem;
 }
 
 .about-icons h3 {
@@ -318,4 +319,46 @@ About Section
         max-width: none;
         align-items: center;
     }
+}
+
+/* =====================================
+Timeline Section
+=======================================*/ 
+
+.timeline {
+    position: relative;
+    padding: 2rem 1rem;
+}
+
+.timeline-line {
+    position:absolute;
+    left: 50%;
+    top: 5%;
+    bottom: 0;
+    width: 2px;
+    background: #14d9eb;
+}
+
+.events {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.events li {
+    position: relative;
+    width: 45%;
+    padding: 1rem;
+    background: #353535;
+    color: #fff;
+    border-radius: 4px;
+    margin: 2rem 0;
+}
+
+.events li:nth-child(odd) {
+    left: 0;
+}
+
+.events li:nth-child(even) {
+    left: 55%;
 }
