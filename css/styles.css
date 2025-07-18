@@ -333,7 +333,7 @@ Timeline Section
 .timeline-line {
     position:absolute;
     left: 50%;
-    top: 5%;
+    top: 20%;
     bottom: 0;
     width: 2px;
     background: #14d9eb;
