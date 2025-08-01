@@ -124,11 +124,38 @@
             </div>
         </section>
 
-        <section id="contact">
-            <h2> Contact </h2>
-            <p> Placeholder: My links + Contact form. </p>
+        <section id="contact" aria-label="Contact me">
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h2> Contact </h2>
+                    <p>If you've got a project idea, feedback, or just want to say hi, drop me a message below.</p>
+                    <div class="links-row">
+                        <a href="https://github.com/Cal-M-Dev" target="_blank" rel="noopener" class="github-link" aria-label="View my GitHub">
+                            <img src="assets/icons/github-icon.svg" alt="" aria-hidden="true" width="28" height="28" loading="lazy" />
+                            <span> GitHub </span>
+                        </a>
+                    </div>
+                </div>
+
+                <form id="contact-form" class="contact-form" novalidate>
+                    <label for="name"> Name <span aria-hidden="true">*</span></label>
+                    <input type="text" id="name" required placeholder="Name" />
+
+                    <label for="email"> Email <span aria-hidden="true">*</span></label>
+                    <input type="email" id="email" name="email" required placeholder = "@example.com" />
+
+                    <label for="message"> Message <span aria-hidden="true">*</span></label>
+                    <textarea id="message" name="message" rows="6" required placeholder="Message"></textarea>
+
+                    <div id="form-feedback" aria-live="polite" class="form-feedback"></div>
+
+                    <button type="submit" class="submit-btn">Send Message</button>
+                    <p class="small-print">
+                        Or email me directly at <a href="mailto:cal.mc.dev@gmail.com">cal.mc.dev@gmail.com</a>.
+                    </p>
+                </form>
+            </div>
         </section>
-    
     </main>
 
     <script src="js/console.js"></script>
