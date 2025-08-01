@@ -272,7 +272,7 @@ function animate(now) {
         const dist = Math.hypot(dx, dy);
 
         if (dist < 50) {
-            const force = (75 - dist) / 50 * 0.5;
+            const force = (50 - dist) / 50 * 0.5;
             p.vx += (dx / dist) * force;
             p.vy += (dy / dist) * force;
             }

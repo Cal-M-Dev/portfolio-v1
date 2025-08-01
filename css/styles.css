@@ -325,18 +325,22 @@ About Section
 Timeline Section
 =======================================*/ 
 
-.timeline {
+#timeline {
     position: relative;
-    padding: 2rem 1rem;
+    padding: 4rem 1rem;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
-.timeline-line {
-    position:absolute;
+#timeline::before {
+    content: "";
+    position: absolute;
     left: 50%;
     top: 20%;
     bottom: 0;
-    width: 2px;
+    width: 4px;
     background: #14d9eb;
+    transform: translateX(-50%);
 }
 
 .events {
@@ -346,20 +350,90 @@ Timeline Section
 }
 
 .events li {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr;
     position: relative;
-    width: 45%;
-    padding: 1rem;
-    background: rbga(179, 179, 179, 0.8);
-    backdrop-filter: blur(4px);
-    color: #fff;
-    border-radius: 4px;
-    margin: 2rem 0;
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity, .6s ease, transform .6s ease;
 }
 
-.events li:nth-child(odd) {
-    left: 0;
+.events li::before {
+    content: "";
+    grid-column: 2;
+    justify-self: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #0cf;
+    margin-top: 0.5rem;
 }
 
-.events li:nth-child(even) {
-    left: 55%;
+.events li:nth-child(odd) .content {
+    grid-column: 1;
+    text-align: right;
+    padding-right: 2rem;
+}
+
+.events li:nth-child(even) .content {
+    grid-column: 3;
+    text-align: left;
+    padding-left: 2rem;
+}
+
+.content {
+    background:rgba(30, 30, 30, 0.8);
+    backdrop-filter: blur(6px);
+    padding: 1.25rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    position: relative;
+    color: #eee;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.4;
+}
+
+.content time {
+    display: block;
+    font-size: 0.875rem;
+    color: #0cf;
+    margin-bottom: 0.25rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.5px;
+}
+
+.content h4 {
+    margin: 0.25rem 0 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.content p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.content:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+    transition: transform .2s ease, box-shadow  .2s ease;
+}
+
+.events li.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 900px) {
+    .events li {
+        grid-template-columns: 1fr;
+    }
+    .events li::before {
+        display: none;
+    }
+    .events li .content {
+        text-align: left !important;
+        padding: 1rem;
+    }
 }
