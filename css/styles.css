@@ -675,7 +675,7 @@ Contact Section
 
 .contact-form input,
 .contact-form textarea {
-    background: rgba(255,255,255,0.05);
+    background: rgba(40,40,40,0.9);
     border: 1px solid rgba(255,255,255,0.15);
     padding: .85rem 1rem;
     border-radius: 6px;
