@@ -5,8 +5,8 @@ const header = document.querySelector('header');
 const hero = document.querySelector('.hero');
 const navHeight = header.offsetHeight;
 
-const MAX_SPEED = 0.1;
-const VELOCITY_SCALE = 0.1;
+const MAX_SPEED = 0.15;
+const VELOCITY_SCALE = 0.25;
 const morphInterval = 15;
 const BASE_PARTICLE_OPACITY = 1.0;
 const BASE_LINE_OPACITY = 1.0;
