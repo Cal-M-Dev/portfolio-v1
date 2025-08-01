@@ -344,42 +344,52 @@ Timeline Section
 }
 
 .events {
-    padding-top: 12rem;
+    padding-top: 10rem;
     list-style: none;
     margin: 0;
 }
 
 .events li {
-    display: grid;
-    grid-template-columns: 1fr 40px 1fr;
     position: relative;
-    margin-bottom: 3rem;
+    width: 45%;
+    margin: 2rem 0;
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity, .6s ease, transform .6s ease;
+    transition: opacity .6s ease, transform .6s ease;
 }
 
-.events li::before {
+.events li .content{
+    position: relative;
+}
+
+.events li:nth-child(odd) {
+    margin-right: auto;
+}
+
+.events li:nth-child(odd) .content:after {
     content: "";
-    grid-column: 2;
-    justify-self: center;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
+    position: absolute;
+    right: -6%;
+    top: 1.5rem;
+    width: 6%;
+    height: 4px;
+    border-radius: 2px;
     background: #0cf;
-    margin-top: 0.5rem;
 }
 
-.events li:nth-child(odd) .content {
-    grid-column: 1;
-    text-align: right;
-    padding-right: 2rem;
+.events li:nth-child(even) {
+    margin-left: 51.1%;
 }
 
-.events li:nth-child(even) .content {
-    grid-column: 3;
-    text-align: left;
-    padding-left: 2rem;
+.events li:nth-child(even) .content:after {
+    content: "";
+    position: absolute;
+    left: -6%;
+    top: 1.5rem;
+    width: 6%;
+    height: 4px;
+    border-radius: 2px;
+    background: #0cf;
 }
 
 .content {
@@ -396,7 +406,9 @@ Timeline Section
 
 .content time {
     display: block;
-    font-size: 0.875rem;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 1px;
     color: #0cf;
     margin-bottom: 0.25rem;
     font-variant-numeric: tabular-nums;
