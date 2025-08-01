@@ -472,14 +472,15 @@ Projects Section
 }
 
 .projects-header {
-    text-align: center;
-    margin-bottom: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-.projects-header h2P {
-    margin: 0;
-    font-size: 2.4rem;
-    font-weight: 600;
+.projects-header h2 {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #c1173f;
 }
 
 .subtitle {
