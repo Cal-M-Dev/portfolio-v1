@@ -101,14 +101,24 @@ function updateResponsiveParams(){
         VISIBILITY_RADIUS = 450;
         FULL_OPACITY_RADIUS = 200;
         HALF_DISTANCE = 150;
+    
+    } else if (w < 1600) {
+        // Medium Screen
+        INTERACTIVE_COUNT = 500;
+        STATIC_COUNT = 200;
+        CONNECT_DIST = 100;
+        CONNECT_CURSOR_RADIUS = 250;
+        VISIBILITY_RADIUS = 600;
+        FULL_OPACITY_RADIUS = 250;
+        HALF_DISTANCE = 200;
 
     } else {
         // Large Screen
         INTERACTIVE_COUNT = 700;
         STATIC_COUNT = 450;
-        CONNECT_DIST = 120;
-        CONNECT_CURSOR_RADIUS = 500;
-        VISIBILITY_RADIUS = 1000;
+        CONNECT_DIST = 100;
+        CONNECT_CURSOR_RADIUS = 350;
+        VISIBILITY_RADIUS = 900;
         FULL_OPACITY_RADIUS = 300;
         HALF_DISTANCE = 350;
     }
