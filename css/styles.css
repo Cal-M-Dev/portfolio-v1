@@ -4,7 +4,7 @@ Whole Page Style
 
 html {
     font-family: 'Montserrat', sans-serif;
-    color: #fff;
+    color: #e5e5e5;
     line-height: 1.5;
     font-size: 16px;
 }
@@ -14,6 +14,8 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 html {
@@ -48,20 +50,7 @@ main section {
     padding: 4rem 2rem;
     box-sizing: border-box;
 }
-/*
-#about {
 
-  }
-  #timeline {
-    
-  }
-  #projects {
-    
-  }
-  #contact {
-    
-}
-*/
 /* =====================================
 Nav Links Section
 =======================================*/
@@ -69,28 +58,70 @@ Nav Links Section
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 1rem;
+    gap: 0.8rem;
     padding: 0;
-    margin: 0;
+    margin-right: 2rem;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.nav-links::-webkit-scrollbar {
+  height: 6px;
+}
+
+.nav-links::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.nav-links::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 3px;
 }
 
 .nav-links li {
-    margin: 0;    
+    min-width: 0;
+    flex: 0 0 auto;  
 }
 
 .nav-links a {
+    display: inline-block;
     color: #fff;
     font-size: 22px;
     font-weight: 500;
     text-decoration: none;
+    text-align: center;
     border-radius: 0.25rem;
-    padding: 0.25rem 0.75rem;
+    padding: 0.4rem 0.5rem;
     transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
 }
 
 .nav-links a:hover,
 .nav-links .active a {
     color: #c1173f;
+}
+
+@media (max-width: 900px) {
+    .nav-links li a {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+    }
+    .nav-links {
+        gap: 0.3rem;
+    }
+}
+
+@media (max-width: 600px) {
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0rem;
+  }
+  .nav-links a {
+    font-size: 0.9rem;
+  }
 }
 
 /* =====================================
@@ -120,7 +151,14 @@ header.visible {
     align-items: center;
     justify-content:right;
     background-color: #2a2a2a;
+    backdrop-filter: saturate(180%) blur(8px);
     padding: 1.2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 /* =====================================
@@ -241,6 +279,8 @@ About Section
     z-index: 10;
     color: #c1173f;
     font-size: 2.8rem;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(229,57, 111, 0.25);
 }
 
 .about-container {
@@ -301,7 +341,8 @@ About Section
     margin-bottom: 0.5rem;
     text-align: center;
     font-size: 2rem;
-    
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(229,57, 111, 0.25);
 }
 
 @media (max-width: 700px) {
@@ -437,19 +478,6 @@ Timeline Section
     transform: translateY(0);
 }
 
-@media (max-width: 900px) {
-    .events li {
-        grid-template-columns: 1fr;
-    }
-    .events li::before {
-        display: none;
-    }
-    .events li .content {
-        text-align: left !important;
-        padding: 1rem;
-    }
-}
-
 /* =====================================
 Projects Section
 =======================================*/ 
@@ -472,15 +500,17 @@ Projects Section
 }
 
 .projects-header {
-  text-align: center;
-  margin-bottom: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
 .projects-header h2 {
-  margin: 0;
-  font-size: 2.4rem;
-  font-weight: 600;
-  color: #c1173f;
+    margin: 0;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #c1173f;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(229,57, 111, 0.25);
 }
 
 .subtitle {
@@ -496,108 +526,108 @@ Projects Section
 }
 
 .project-card {
-  background: var(--bg-card);
-  border-radius: var(--radius);
-  padding: 1.25rem 1.5rem;
-  position: relative;
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
-  min-height: 220px;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    position: relative;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    min-height: 220px;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .project-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 36px rgba(0,0,0,0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.5);
 }
 
 .status-tag {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: rgba(255,255,255,0.08);
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 0.55rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(255,255,255,0.08);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .project-title {
-  margin: 0 0 .35rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: .5rem;
-  font-weight: 600;
+    margin: 0 0 .35rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: .5rem;
+    font-weight: 600;
 }
 
 .project-title > div:first-child {
-  font-size: 1.2rem;
+    font-size: 1.2rem;
 }
 
 .project-meta {
-  font-size: .75rem;
-  color: #0cf;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+    font-size: .75rem;
+    color: #0cf;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .project-desc {
-  flex: 1;
-  margin: 0 0 1rem;
-  font-size: .95rem;
-  line-height: 1.4;
-  color: #ddd;
+    flex: 1;
+    margin: 0 0 1rem;
+    font-size: .95rem;
+    line-height: 1.4;
+    color: #ddd;
 }
 
 .tech-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .35rem;
-  margin-bottom: .75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem;
+    margin-bottom: .75rem;
 }
 
 .tech-badge {
-  background: rgba(255,255,255,0.08);
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: .55rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+    background: rgba(255,255,255,0.08);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: .55rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .links {
-  display: flex;
-  gap: .75rem;
-  flex-wrap: wrap;
-  font-size: .85rem;
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+    font-size: .85rem;
 }
 
 .links a {
-  color: #fff;
-  text-decoration: none;
-  background: rgba(255,255,255,0.08);
-  padding: 6px 12px;
-  border-radius: 6px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  transition: background var(--transition-fast);
+    color: #fff;
+    text-decoration: none;
+    background: rgba(255,255,255,0.08);
+    padding: 6px 12px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: background var(--transition-fast);
 }
 
 .links a:hover {
-  background: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.15);
 }
 
 @media (max-width: 900px) {
-  .projects-header h2 {
-    font-size: 2rem;
-  }
-  .project-card {
-    min-height: auto;
-  }
+    .projects-header h2 {
+        font-size: 2rem;
+    }
+    .project-card {
+        min-height: auto;
+    }
 }
 
 /* =====================================
@@ -605,6 +635,7 @@ Contact Section
 =======================================*/ 
 
 #contact {
+    min-height: 0;
     padding: 8rem 1rem 6rem;
     color: #eee;
 }
@@ -613,8 +644,9 @@ Contact Section
     max-width: 1000px;
     margin: 0 auto;
     display: grid;
+    flex-direction: column;
     gap: 2rem;
-    griid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     align-items: start;
 }
 

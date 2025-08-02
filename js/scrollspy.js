@@ -1,46 +1,41 @@
-// Active Navbar on page scroll
-document.addEventListener('DOMContentLoaded', () => {
-  const header       = document.querySelector('header');
-  const sections     = Array.from(document.querySelectorAll('section[id]'));
-  const navLinks     = document.querySelectorAll('.nav-links a');
-  let   highlightTimer;
-  let   isAutoScroll = false;
-
-  function doHighlight(id) {
-    navLinks.forEach(l => l.parentElement.classList.remove('active'));
-    const link = document.querySelector(`.nav-links a[href="#${id}"]`);
-    if (link) link.parentElement.classList.add('active');
-  }
-
-  function scheduleHighlight(id) {
-    if (isAutoScroll) return;
-    clearTimeout(highlightTimer);
-    highlightTimer = setTimeout(() => doHighlight(id), 250);
-  }
-
-  function onScroll() {
-    const headerHeight = header.getBoundingClientRect().height;
-    let current = sections[0].id;
-    sections.forEach(sec => {
-      if (sec.getBoundingClientRect().top <= headerHeight + 5) {
-        current = sec.id;
+document.addEventListener("DOMContentLoaded", () => {
+  const header = document.querySelector("header");
+  const sections = Array.from(document.querySelectorAll("section[id]"));
+  const navLinks = document.querySelectorAll(".nav-links a");
+  
+  function setActive(id) {
+    navLinks.forEach((a) => {
+      const li = a.closest("li");
+      if (!li) return;
+      if (a.getAttribute("href") === `#${id}`) {
+        li.classList.add("active");
+      } else {
+        li.classList.remove("active");
       }
     });
-    scheduleHighlight(current);
   }
 
-  navLinks.forEach(link => {
-    link.addEventListener('click', e => {
-      isAutoScroll = true;
-      clearTimeout(highlightTimer);
-      const dest = link.getAttribute('href').slice(1);
-      setTimeout(() => {
-        doHighlight(dest);
-        isAutoScroll = false;
-      }, 500);
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActive(entry.target.id);
+        }
+      });
+    },
+    {
+      root: null,
+      rootMargin: `-${header.offsetHeight}px 0px 0px 0px`,
+      threshold: 0.5,
+    }
+  );
+
+  sections.forEach((sec) => observer.observe(sec));
+
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      const dest = link.getAttribute("href").slice(1);
+      setActive(dest);
     });
   });
-
-  window.addEventListener('scroll', onScroll);
-  onScroll();
 });
