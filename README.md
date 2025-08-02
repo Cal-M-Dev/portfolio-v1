@@ -18,7 +18,7 @@ A personal portfolio built as part of my journey to become a backend engineer an
 
 ## Overview
 
-This portfolio is self-built web application for showcasing my development journey. It includes:
+This portfolio is self-built web application for showcasing my development. It includes:
 
 - A hero section with a basic introduction, utilizing a typewriter effect.
 - An about section that briefly outlines my personal history, goals, and current/future tech skills.
