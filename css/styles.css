@@ -493,7 +493,7 @@ Projects Section
 }
 
 #projects {
-    padding: 4rem 1rem;
+    padding: 8rem 1rem;
     max-width: 1200px;
     margin: 0 auto;
     color: #eee;
@@ -641,10 +641,11 @@ Contact Section
 }
 
 .contact-wrapper {
-    max-width: 1000px;
+    max-width: 800px;
     margin: 0 auto;
-    display: grid;
+    display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 2rem;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     align-items: start;
@@ -699,6 +700,7 @@ Contact Section
 
 .contact-form {
     display: flex;
+    width: 100%;
     flex-direction: column;
     gap: 0.75rem;
     position: relative;
@@ -709,14 +711,19 @@ Contact Section
 .contact-form textarea {
     background: rgba(40,40,40,0.9);
     border: 1px solid rgba(255,255,255,0.15);
-    padding: .85rem 1rem;
+    padding: 0.85rem 1rem;
     border-radius: 6px;
+    width: 100%;
     font-size: 1rem;
     color: #eee;
     outline: none;
     resize: vertical;
     font-family: inherit;
     box-sizing: border-box;
+}
+
+.contact-form textarea {
+    min-height: 160px;
 }
 
 .contact-form input:focus,

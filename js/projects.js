@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
             title: "Project 1",
             subtitle: "Starter Template",
             date: "08/2025",
-            description: "Placeholder porject for displaying structure and design.",
+            description: "Placeholder project for displaying structure and design.",
             tech: ["HTML", "CSS", "JavaScript"],
             demo: "#",
             repo: "#",
