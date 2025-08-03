@@ -2,6 +2,8 @@
 
 ### Video Demo:
 
+https://youtu.be/1faezdmWyz4
+
 ### Description:
 
 A personal portfolio built as part of my journey to become a backend engineer and beyond.
