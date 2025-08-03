@@ -3,14 +3,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const projects = [
         {
-            title: "Project 1",
-            subtitle: "Starter Template",
+            title: "Portfolio V1",
+            subtitle: "Template",
             date: "08/2025",
-            description: "Placeholder project for displaying structure and design.",
+            description: " The first iteration of my portfolio website, showcasing my skills and projects.",
             tech: ["HTML", "CSS", "JavaScript"],
             demo: "#",
-            repo: "#",
-            status: "Planning",
+            repo: "https://github.com/Cal-M-Dev/portfolio-v1",
+            status: "Completed",
         },
         {
             title: "Project 2",
@@ -32,6 +32,36 @@ document.addEventListener("DOMContentLoaded", () => {
             repo: "#",
             status: "In Progress",
         },
+                {
+            title: "Project 4",
+            subtitle: "Template",
+            date: "10/2025",
+            description: "Template for future projects.",
+            tech: ["HTML", "CSS", "JavaScript"],
+            demo: "#",
+            repo: "#",
+            status: "Planning",
+        },
+                {
+            title: "Project 5",
+            subtitle: "Template",
+            date: "10/2025",
+            description: "Template for future projects.",
+            tech: ["HTML", "CSS", "JavaScript"],
+            demo: "#",
+            repo: "#",
+            status: "Planning",
+        },
+                {
+            title: "Project 6",
+            subtitle: "Template",
+            date: "10/2025",
+            description: "Template for future projects.",
+            tech: ["HTML", "CSS", "JavaScript"],
+            demo: "#",
+            repo: "#",
+            status: "Planning",
+        },
     ];
 
     function renderProjects() {
@@ -44,9 +74,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 .map((t) => `<div class="tech-badge">${t}</div>`)
                 .join("");
 
+            const statusClass = p.status
+                ? p.status.toLowerCase().replace(/\s+/g, "-")
+                : "";
+
             return `
                 <div class="project-card">
-                    <div class="status-tag">${p.status}</div>
+                    <div class="status-tag ${statusClass}">${p.status}</div>
                     
                     <div class="project title">
                         <div>${p.title}</div>

@@ -76,7 +76,7 @@ All interactivity is implemented in JavaScript to reflect skills learned in CS50
 
 - **Progressive content model** for the ability to trivially add or update content with arrays without having to template systems. Original idea was to have projects be somewhat static with their own pages and require lots of copy pasting using a template. This seemed like a much more dynamic and future-proof system.
 
-- **Visual depth via dynamic canvas** to showcase JavaScript skills as well as create some interactivity with a website that is mostly only reading content. Original idea was to have just a static image background but I wanted to make something more intriguing and eye-catching. I also decided to remove the interactivity and replace it with a static version of the particle canvas, keeping the "noise" off to the side away from the main reading content.
+- **Visual depth via dynamic canvas** to showcase JavaScript skills as well as create some interactivity with a website that is mostly only reading content. First iteration just had a static image background but I wanted to make something more intriguing and eye-catching. I also decided to remove the interactivity and replace it with a static version of the particle canvas, keeping the "noise" off to the side away from the main reading content.
 
 - **Configurable const declarations** for ease of editing the canvas.js. Early on in my project I found myself constantly having to edit several lines of code just to change one parameter of the canvas so I decided to create a control section at the top of canvas.js in order to tweak anything quickly as well as adjust based on viewport size.
 

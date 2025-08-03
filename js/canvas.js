@@ -15,7 +15,7 @@ const RED_RGB = '152, 18, 49';
 const BLUE_RGB = '120,200,255';
 const mouse = { x: null, y: null };
 const DURATION = 3000;
-const STATIC_VELOCITY_SCALE = 0.02;
+const STATIC_VELOCITY_SCALE = 0.03;
 const STATIC_MAX_SPEED = 0.03;
 
 let INTERACTIVE_COUNT,
